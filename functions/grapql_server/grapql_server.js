@@ -2,7 +2,7 @@ const {ApolloServer, gql} = require('apollo-server-lambda');
 
 const typeDefs=gql`
 type Query {
-    todos:[Todos]!
+    todos:[Todo]!
 }
 type Todo {
     id:ID!
