@@ -2,31 +2,7 @@ import React, { useContext } from 'react';
 import { Router, Link } from '@reach/router';
 import { Container, NavLink, Flex, Button, Heading } from 'theme-ui'
 import { IDcontext } from '../../netlifyID';
-
-
-let Dash = () => {
-    const { user,identity: netlifyID } = useContext(IDcontext)
-    return (
-        <Container>
-            <Flex as="nav">
-                <NavLink as={Link} to="/" p={2}>
-                    Home
-                </NavLink>
-                {user && (<NavLink p={2}>
-                    {user.user_metadata.full_name}
-                </NavLink>)}
-            </Flex>
-            <Flex sx={{ flexDirection: "column", padding: 5 }}>
-                <Heading as="h1">Todo App</Heading>
-                <Button sx={{ marginTop: 3 }}
-                    onClick={() => { netlifyID.logout() }}
-                >
-                    Log Out
-                </Button>
-            </Flex>
-        </Container>
-    )
-}
+import Dash from '../components/Dashboard'
 
 let DashLoggedOut = () => {
     const { identity: netlifyID } = useContext(IDcontext);
