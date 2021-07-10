@@ -2,7 +2,35 @@ import React, { useContext, useRef, useState, useReducer } from 'react';
 import { Router, Link } from '@reach/router';
 import { Container, Input, Label, NavLink, Flex, Button, Heading, Checkbox } from 'theme-ui'
 import { IDcontext } from '../../netlifyID';
+import { gql, useMutation, useQuery } from '@apollo/client';
 
+const ADD_TODO = gql`
+mutation AddTodo($text:String!){
+    addTodo(text:$text){
+        id
+        type
+    }
+}
+`;
+
+const GET_TODOS = gql`
+query GetTodos{
+    todos{
+        id
+        text
+        done
+    }
+}
+`;
+
+const UPDATE_TODO_DONE = gql`
+mutation Update_Todo_Done($id:ID!){
+    updateTodoDone(id:$id){
+        text
+        done
+    }
+}
+`;
 const todoReducer = (state, action) => {
     switch (action.type) {
         case "addTodo":
@@ -13,7 +41,7 @@ const todoReducer = (state, action) => {
                 done: !state[action.payload].done,
                 value: state[action.payload].value
             }
-            console.log("Reducer ran, newState:",newState)
+            console.log("Reducer ran, newState:", newState)
             return newState;
     }
 }
@@ -23,6 +51,9 @@ export default props => {
     const inputRef = useRef();
     //const [todos, setTodos]= useState([]);
     const [todos, dispatch] = useReducer(todoReducer, [])
+    const [addTodo] = useMutation(ADD_TODO);
+    const { loading, data, error } = useQuery(GET_TODOS);
+    const [updateTodoDone] = useMutation(UPDATE_TODO_DONE);
     return (
         <Container>
             <Flex as="nav">
@@ -35,14 +66,9 @@ export default props => {
             </Flex>
             <Flex
                 as="form"
-
                 onSubmit={(e) => {
                     e.preventDefault();
-                    //setTodos([{done:false, value:inputRef.current.value},...todos])
-                    dispatch({
-                        type: "addTodo",
-                        payload: inputRef.current.value
-                    })
+                    addTodo({ variables: { text: inputRef.current.value } })
                     inputRef.current.value = ""
                 }}>
                 <Label sx={{ display: "flex" }}>
@@ -54,25 +80,24 @@ export default props => {
                 </Button>
             </Flex>
             <Flex sx={{ flexDirection: "column" }}>
-                <ul sx={{ listStyleType: "none" }}>
-                    {todos.map((todo, i) => (
-                        <Flex as="li"
-                            onClick={() => {
-                                dispatch({
-                                    type: "toggleTodo",
-                                    payload: i
-                                })
-                                // console.log('checkbox clicked, i:', i)
-                                // console.log("todo:", todo)
-                            }}
-                        >
-                            <Checkbox
-                                checked={todo.done}
-                            />
-                            <span>{todo.value}</span>
-                        </Flex>
-                    ))}
-                </ul>
+                {loading ? <div>loading...</div> : null}
+                {error ? <div>Error retrieving your tasks, looks like you will have to go back to 19th centuary style of remembering your todo's ;)</div> : null}
+                {!loading && !error && (
+                    <ul sx={{ listStyleType: "none" }}>
+                        {todos.map(todo => (
+                            <Flex as="li"
+                                onClick={() => {
+                                    updateTodoDone({variables:{id:todo.id}})
+                                }}
+                            >
+                                <Checkbox
+                                    checked={todo.done}
+                                />
+                                <span>{todo.value}</span>
+                            </Flex>
+                        ))}
+                    </ul>
+                )}
             </Flex>
         </Container>
     )

@@ -8,8 +8,11 @@ const newTheme = {
     sizes: { container: 1024 }
 }
 
+
 module.exports = ({ element }) => (
     <Provider>
+
         <ThemeProvider theme={newTheme}>{element}</ThemeProvider>
+
     </Provider>
 )
