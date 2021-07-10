@@ -11,7 +11,7 @@ type Todo {
 }
 type Mutation {
     addTodo(text:String!):Todo
-    updateTodo(id:ID!):Todo
+    updateTodoDone(id:ID!):Todo
 }
 `
 const todos={};
