@@ -9,7 +9,7 @@ type Todo {
     text:String!
     done:Boolean!
 }
-typr Mutation {
+type Mutation {
     addTodo(text:String!):Todo
     updateTodo(id:ID!):Todo
 }
