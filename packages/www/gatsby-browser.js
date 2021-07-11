@@ -22,7 +22,7 @@ const authLink = setContext((_, { headers }) => {
 })
 
 const httpLink = new HttpLink({
-    uri: "https://todo-app-by-ar.netlify.app/.netlify/functions/grapql_server"
+    uri: "/.netlify/functions/grapql_server"
 })
 
 const client = new ApolloClient({
