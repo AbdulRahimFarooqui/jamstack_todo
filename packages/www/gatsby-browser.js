@@ -5,18 +5,18 @@ const {
     HttpLink,
     InMemoryCache
 } = require('@apollo/client');
-const {setContext} = require('apollo-link-context')
+const { setContext } = require('apollo-link-context')
 const wrapRootElement = require("./wrap-root-element");
-const netlifyIdentity=require("netlify-identity-widget")
+const netlifyIdentity = require("netlify-identity-widget")
 
-const authLink=setContext((_,{headers})=>{
+const authLink = setContext((_, { headers }) => {
     const user = netlifyIdentity.currentUser();
     const token = user.token.access_token;
 
-    return{
-        headers:{
+    return {
+        headers: {
             ...headers,
-            Authorization: token ? `Bearer $(token)`:"y"
+            Authorization: token ? `Bearer $(token)` : ""
         }
     }
 })
@@ -32,9 +32,9 @@ const client = new ApolloClient({
 
 
 exports.wrapRootElement = ({ element }) => {
-    return(
+    return (
         <ApolloProvider client={client}>
-            {wrapRootElement({element})}
+            {wrapRootElement({ element })}
         </ApolloProvider>
     )
-    }
+}

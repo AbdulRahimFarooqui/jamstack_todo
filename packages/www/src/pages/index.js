@@ -1,7 +1,5 @@
 import React, { useContext } from 'react';
-import { Container, Button, Flex, Heading } from 'theme-ui'
-// import netlifyID from 'netlify-identity-widget'
-import { NavLink } from 'theme-ui'
+import { Container, Button, Flex, Heading, NavLink } from 'theme-ui'
 import {Link} from 'gatsby';
 import {IDcontext} from '../../netlifyID';
 
@@ -16,7 +14,7 @@ export default props => {
                 <NavLink as={Link} to={"/app"} p={2}>
                     Dashboard
                 </NavLink>
-                {user && (<NavLink p={2}>
+                {user && (<NavLink href="#!" p={2}>
                     {user.user_metadata.full_name}
                 </NavLink>)}
             </Flex>

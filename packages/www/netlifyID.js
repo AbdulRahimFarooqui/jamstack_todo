@@ -1,8 +1,7 @@
 const React = require('react');
 const netlifyID = require('netlify-identity-widget');
-const { createContext } = require('react');
 
-const IDcontext = createContext({});
+const IDcontext = React.createContext({});
 
 exports.IDcontext = IDcontext;
 

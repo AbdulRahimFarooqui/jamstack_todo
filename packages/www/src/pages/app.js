@@ -5,7 +5,7 @@ import { IDcontext } from '../../netlifyID';
 import Dash from '../components/Dashboard'
 
 let DashLoggedOut = () => {
-    const { identity: netlifyID } = useContext(IDcontext);
+    const {user, identity: netlifyID } = useContext(IDcontext);
     return (
         <Container>
             <Flex sx={{ flexDirection: "column", padding: 5 }}>

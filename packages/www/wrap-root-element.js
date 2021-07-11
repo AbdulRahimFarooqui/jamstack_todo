@@ -3,7 +3,7 @@ const { ThemeProvider } = require('theme-ui');
 const { deep } = require('@theme-ui/presets');
 const { Provider } = require('./netlifyID')
 
-const newTheme = {
+const tokens = {
     ...deep,
     sizes: { container: 1024 }
 }
@@ -12,7 +12,7 @@ const newTheme = {
 module.exports = ({ element }) => (
     <Provider>
 
-        <ThemeProvider theme={newTheme}>{element}</ThemeProvider>
+        <ThemeProvider theme={tokens}>{element}</ThemeProvider>
 
     </Provider>
 )

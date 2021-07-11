@@ -8,7 +8,7 @@ const ADD_TODO = gql`
 mutation AddTodo($text:String!){
     addTodo(text:$text){
         id
-        type
+        
     }
 }
 `;
@@ -46,7 +46,7 @@ const todoReducer = (state, action) => {
     }
 }
 
-export default props => {
+export default () => {
     const { user, identity: netlifyID } = useContext(IDcontext)
     const inputRef = useRef();
     //const [todos, setTodos]= useState([]);
@@ -57,20 +57,28 @@ export default props => {
     return (
         <Container>
             <Flex as="nav">
-                <NavLink as={Link} to="/" p={2}>
+                <NavLink as={Link} to={"/"} p={2}>
                     Home
                 </NavLink>
-                {user && (<NavLink p={2}>
-                    {user.user_metadata.full_name}
+                <NavLink as={Link} to={"/app"} p={2}>
+                    Dashboard
+                </NavLink>
+                {user && (<NavLink p={2}
+                    href="#!"
+                    onClick={() => {
+                        netlifyID.logout();
+                    }}
+                >
+                    Log Out{user.user_metadata.full_name}
                 </NavLink>)}
             </Flex>
             <Flex
                 as="form"
-                onSubmit={async (e) => {
+                onSubmit={async e => {
                     e.preventDefault();
                     await addTodo({ variables: { text: inputRef.current.value } })
-                    await refetch()
-                    inputRef.current.value = ""
+                    inputRef.current.value = "";
+                    await refetch();
                 }}>
                 <Label sx={{ display: "flex" }}>
                     <span>Add&nbsp;Todo</span>
@@ -82,19 +90,20 @@ export default props => {
             </Flex>
             <Flex sx={{ flexDirection: "column" }}>
                 {loading ? <div>loading...</div> : null}
-                {error ? <div>Error retrieving your tasks, looks like you will have to go back to 19th centuary style of remembering your todo's ;)</div> : null}
+                {error ? <div>{error.message};)</div> : null}
                 {!loading && !error && (
                     <ul sx={{ listStyleType: "none" }}>
-                        {todos.map(todo => (
+                        {data.todos.map(todo => (
                             <Flex as="li"
-                            key={todo.id}
+                                key={todo.id}
                                 onClick={async () => {
-                                    await updateTodoDone({variables:{id:todo.id}})
+                                    await updateTodoDone({ variables: { id: todo.id } })
                                     await refetch()
                                 }}
                             >
                                 <Checkbox
                                     checked={todo.done}
+                                    readOnly
                                 />
                                 <span>{todo.text}</span>
                             </Flex>
