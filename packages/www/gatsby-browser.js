@@ -5,15 +5,29 @@ const {
     HttpLink,
     InMemoryCache
 } = require('@apollo/client');
-
+const {setContext} = require('apollo-link-context')
 const wrapRootElement = require("./wrap-root-element");
+const netlifyIdentity=require("netlify-identity-widget")
 
+const authLink=setContext((_,{headers})=>{
+    const user = netlifyIdentity.currentUser();
+    const token = user.token.access_token;
+
+    return{
+        headers:{
+            ...headers,
+            Authorization: token ? `Bearer $(token)`:"y"
+        }
+    }
+})
+
+const httpLink = new HttpLink({
+    uri: "https://todo-app-by-ar.netlify.app/.netlify/functions/grapql_server"
+})
 
 const client = new ApolloClient({
     cache: new InMemoryCache(),
-    link: new HttpLink({
-        uri: "https://todo-app-by-ar.netlify.app/.netlify/functions/grapql_server"
-    })
+    link: authLink.concat(httpLink)
 });
 
 

@@ -11,6 +11,8 @@
   "dependencies": {
     "@apollo/client": "^3.3.21",
     "@theme-ui/presets": "^0.10.0",
+    "dotenv": "^10.0.0",
+    "faunadb": "^4.3.0",
     "gatsby": "^3.9.0",
     "gatsby-plugin-create-client-paths": "^3.9.0",
     "netlify-identity-widget": "^1.9.1",
