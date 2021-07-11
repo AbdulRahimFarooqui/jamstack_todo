@@ -19,7 +19,7 @@ type Mutation {
 `
 const resolvers = {
     Query:{
-        todos:(parent,args,{user})=>{
+        todos:async (parent,args,{user})=>{
             if(!user){
                 return []
             }
