@@ -25,7 +25,7 @@ const resolvers = {
             }
             else{
                 const results = await client.query(
-                    q.Paginate(q.Match(q.Index("todos_by_user"),"user_test"))
+                    q.Paginate(q.Match(q.Index("todos_by_user"),user))
                 )
                 return results.data.map(([ref, text, done])=>({
                     id:ref.id,
@@ -54,7 +54,7 @@ const resolvers = {
                 id:results.ref.id
             };
         },
-        updateTodoDone:async (_,{id})=>{
+        updateTodoDone:async (_,{id}, {user})=>{
             if(!user){
                 throw new Error("Must be authenticated")
             }
@@ -81,7 +81,7 @@ const server = new ApolloServer({
             return {user: context.clientContext.user.sub}
         }
         else{
-            return{}
+            return{};
         }
     },
     playground:true,
