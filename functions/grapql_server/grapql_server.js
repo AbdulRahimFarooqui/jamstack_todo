@@ -77,7 +77,7 @@ const server = new ApolloServer({
     typeDefs,
     resolvers,
     context:({context})=>{
-        if(context.clientContext.user.sub){
+        if(context.clientContext.user){
             return {user: context.clientContext.user.sub}
         }
         else{
