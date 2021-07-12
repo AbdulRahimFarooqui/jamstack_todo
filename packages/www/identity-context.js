@@ -8,9 +8,7 @@ exports.IdentityContext = IdentityContext;
 const IdentityProvider = props => {
   const [user, setUser] = React.useState();
 
-  React.useEffect(() => {
-    netlifyIdentity.init({});
-  });
+  
   netlifyIdentity.on("login", user => {
     netlifyIdentity.close();
     setUser(user);
