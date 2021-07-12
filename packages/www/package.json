@@ -2,6 +2,7 @@
   "name": "www",
   "version": "1.0.0",
   "main": "index.js",
+  "author": "abdurraheemfarooqui",
   "license": "MIT",
   "scripts": {
     "develop": "gatsby develop",
@@ -9,16 +10,15 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
-    "@apollo/client": "^3.3.21",
-    "@theme-ui/presets": "^0.10.0",
-    "apollo-link-context": "^1.0.20",
-    "dotenv": "^10.0.0",
-    "faunadb": "^4.3.0",
-    "gatsby": "^3.9.0",
-    "gatsby-plugin-create-client-paths": "^3.9.0",
-    "netlify-identity-widget": "^1.9.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "theme-ui": "^0.10.0"
+    "@apollo/client": "^3.0.0-beta.33",
+    "@theme-ui/presets": "^0.3.0",
+    "apollo-link-context": "^1.0.19",
+    "faunadb": "^2.11.1",
+    "gatsby": "^2.19.12",
+    "gatsby-plugin-create-client-paths": "^2.1.22",
+    "netlify-identity-widget": "^1.5.6",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "theme-ui": "^0.3.1"
   }
 }

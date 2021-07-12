@@ -1,40 +1,40 @@
 const React = require("react");
 const {
-    ApolloProvider,
-    ApolloClient,
-    HttpLink,
-    InMemoryCache
-} = require('@apollo/client');
-const { setContext } = require('apollo-link-context')
+  ApolloProvider,
+  ApolloClient,
+  HttpLink,
+  InMemoryCache
+} = require("@apollo/client");
+const { setContext } = require("apollo-link-context");
+const netlifyIdentity = require("netlify-identity-widget");
+
 const wrapRootElement = require("./wrap-root-element");
-const netlifyIdentity = require("netlify-identity-widget")
 
 const authLink = setContext((_, { headers }) => {
-    const user = netlifyIdentity.currentUser();
-    const token = user.token.access_token;
-
-    return {
-        headers: {
-            ...headers,
-            Authorization: token ? `Bearer $(token)` : ""
-        }
+  const user = netlifyIdentity.currentUser();
+  const token = user.token.access_token;
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      Authorization: token ? `Bearer ${token}` : ""
     }
-})
-
-const httpLink = new HttpLink({
-    uri: "/.netlify/functions/grapql_server"
-})
-
-const client = new ApolloClient({
-    cache: new InMemoryCache(),
-    link: authLink.concat(httpLink)
+  };
 });
 
+const httpLink = new HttpLink({
+  uri:
+    "https://todo-app-by-ar.netlify.app/.netlify/functions/graphql"
+});
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: authLink.concat(httpLink)
+});
 
 exports.wrapRootElement = ({ element }) => {
-    return (
-        <ApolloProvider client={client}>
-            {wrapRootElement({ element })}
-        </ApolloProvider>
-    )
-}
+  return (
+    <ApolloProvider client={client}>
+      {wrapRootElement({ element })}
+    </ApolloProvider>
+  );
+};

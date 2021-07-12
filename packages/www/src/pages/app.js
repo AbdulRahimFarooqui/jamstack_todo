@@ -1,37 +1,42 @@
-import React, { useContext } from 'react';
-import { Router, Link } from '@reach/router';
-import { Container, NavLink, Flex, Button, Heading } from 'theme-ui'
-import { IDcontext } from '../../netlifyID';
-import Dash from '../components/Dashboard'
+import React, { useContext } from "react";
+import { Router, Link } from "@reach/router";
+import { Container, Flex, Heading, Button, NavLink } from "theme-ui";
+import { IdentityContext } from "../../identity-context";
+import Dash from "../components/dashboard";
 
-let DashLoggedOut = () => {
-    const {user, identity: netlifyID } = useContext(IDcontext);
-    return (
-        <Container>
-            <Flex sx={{ flexDirection: "column", padding: 5 }}>
-                <Heading as="h1">You need to Sign-In to Access the Dashboard Facilities</Heading>
-                <Button sx={{ marginTop: 3 }}
-                    onClick={() => { netlifyID.open() }}
-                >
-                    Sign-In
-                </Button>
-            </Flex>
-        </Container>
-    )
-}
+let DashLoggedOut = props => {
+  const { user, identity: netlifyIdentity } = useContext(IdentityContext);
+
+  return (
+    <Container>
+      <Flex sx={{ flexDirection: "column", padding: 3 }}>
+        <Heading as="h1">Get Stuff Done</Heading>
+        <Button
+          sx={{ marginTop: 2 }}
+          onClick={() => {
+            netlifyIdentity.open();
+          }}
+        >
+          Log In
+        </Button>
+      </Flex>
+    </Container>
+  );
+};
 
 export default props => {
-    const { user } = useContext(IDcontext);
-    if (!user) {
-        return (
-            <Router>
-                <DashLoggedOut path="/app" />
-            </Router>
-        );
-    };
+  const { user } = useContext(IdentityContext);
+
+  if (!user) {
     return (
-        <Router>
-            <Dash path="/app" />
-        </Router>
-    )
-}
+      <Router>
+        <DashLoggedOut path="/app" />
+      </Router>
+    );
+  }
+  return (
+    <Router>
+      <Dash path="/app" />
+    </Router>
+  );
+};
