@@ -24,7 +24,7 @@ const authLink = setContext((_, { headers }) => {
 
 const httpLink = new HttpLink({
   uri:
-    "/.netlify/functions/graphql"
+    "/.netlify/functions/grapql_server"
 });
 const client = new ApolloClient({
   cache: new InMemoryCache(),
